@@ -6,23 +6,41 @@ public class Main {
 
     public static void main(String[] args) {
         char[] tablero, tableroOculto;
-        int extensionTablero;
+        int extensionTablero, casillaDestapada, contadorDeNumeros = 0;
         Scanner entrada = new Scanner(System.in);
 
         System.out.println("~~BIENVENIDX AL BUSCAMINAS~~");
         System.out.println("=====================================================");
-        extensionTablero = pedirNumeroDeExtension(entrada, 5, 15,"¿Cuánta extension quieres que tenga el tablero? [De 5 a 15]: ");
+        extensionTablero = pedirNumero(entrada, 5, 15,"¿Cuánta extension quieres que tenga el tablero? [De 5 a 15]: ");
         System.out.println();
 
         tablero = generarTablero(extensionTablero);
         tableroOculto = generarTableroOculto(extensionTablero);
 
+        for (int i = 0; i < tablero.length; i++) {
+            if (tablero[i] == '1' || tablero[i] == '0' || tablero[i] == '2') {
+                contadorDeNumeros++;
+            }
+        }
 
+        System.out.println(contadorDeNumeros);
         mostrarTablero(tablero);
         mostrarTablero(tableroOculto);
 
-        System.out.println("Elige que casilla quieres destapar: ");
-        // destaparPosicion
+        do {
+            casillaDestapada = pedirNumero(entrada,1, extensionTablero, "Elige que casilla destapar: ");
+            System.out.println();
+            tableroOculto[casillaDestapada - 1] = tablero[casillaDestapada - 1];
+
+            mostrarTablero(tablero);
+            mostrarTablero(tableroOculto);
+
+            if (tablero[casillaDestapada - 1] != '*') {
+                contadorDeNumeros--;
+            }
+
+        } while (tablero[casillaDestapada - 1] != '*' && contadorDeNumeros != 0 );
+        System.out.println("¡¡¡HAS GANADO!!!");
 
     }
 
@@ -69,7 +87,6 @@ public class Main {
 
         return tablero;
     }
-
     private static void mostrarTablero(char[] tablero) {
         for (int i = 0; i < tablero.length; i++) {
             System.out.print("  " + (i + 1) + " ");
@@ -94,8 +111,7 @@ public class Main {
         System.out.println("+");
 
     }
-
-    private static int pedirNumeroDeExtension(Scanner entrada, int min, int max, String mensaje) {
+    private static int pedirNumero(Scanner entrada, int min, int max, String mensaje) {
         int numero;
         do {
             System.out.print(mensaje);
