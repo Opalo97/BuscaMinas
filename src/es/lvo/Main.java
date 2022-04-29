@@ -40,7 +40,7 @@ public class Main {
             }
 
         } while (tablero[casillaDestapada - 1] != '*' && contadorDeNumeros != 0 );
-        System.out.println("¡¡¡HAS GANADO!!!");
+
 
     }
 
